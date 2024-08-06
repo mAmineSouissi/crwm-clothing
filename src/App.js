@@ -5,7 +5,7 @@ import Home from "./routes/Home/Home";
 const App = () => {
   return (
     <Routes>
-      <Route path="/home" Component={Home} element={<Home />} />
+      <Route path="/home" element={<Home />} />
     </Routes>
   );
 };
