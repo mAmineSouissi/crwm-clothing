@@ -1,9 +1,5 @@
 import { initializeApp } from "firebase/app";
-import {
-  getAuth,
-  signInWithPopup,
-  GoogleAuthProvider,
-} from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
@@ -14,11 +10,10 @@ const firebaseConfig = {
   storageBucket: "crwn-clothing-82dd1.appspot.com",
   messagingSenderId: "560698475223",
   appId: "1:560698475223:web:5321f54afdf19d454f2692",
-  signInFlow: 'popup',
 };
 
 // Initialize Firebase
-// const firebaseApp = 
+// const firebaseApp =
 initializeApp(firebaseConfig);
 
 const provider = new GoogleAuthProvider();
@@ -42,18 +37,18 @@ export const createUserDocumetFromAuth = async (userAuth) => {
   const userDocRef = doc(db, "users", userAuth.uid);
   const userSnap = await getDoc(userDocRef);
 
-  if(!userSnap.exists()) {
-  const { displayName, email } = userAuth;
-  const createdAt = new Date();
-  try {
-    setDoc(userDocRef,{
-      displayName,
-      email,
-      createdAt,
-    })
-  } catch (error) {
-    console.log("Error creating user",error);
+  if (!userSnap.exists()) {
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+    try {
+      setDoc(userDocRef, {
+        displayName,
+        email,
+        createdAt,
+      });
+    } catch (error) {
+      console.log("Error creating user", error);
+    }
+    return userDocRef;
   }
-  return userDocRef;
-};
 };

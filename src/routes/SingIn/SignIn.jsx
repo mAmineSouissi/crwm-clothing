@@ -35,6 +35,7 @@ const SignIn = () => {
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
         <Stack align={"center"}>
           <Heading fontSize={"4xl"}>Sign in to your account</Heading>
+          
         </Stack>
         <Box
           rounded={"lg"}
@@ -83,6 +84,11 @@ const SignIn = () => {
               >
                 Sign in with Google
               </Button>
+            </Stack>
+            <Stack pt={6}>
+              <Text align={"center"}>
+                Don't have an account? <Link as={ReactRouterLink} to="/sign-up" color={"blue.400"} >Create an account</Link>
+              </Text>
             </Stack>
           </Stack>
         </Box>
