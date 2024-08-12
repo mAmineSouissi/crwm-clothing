@@ -1,5 +1,14 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  signOut,
+  onAuthStateChanged,
+} from "firebase/auth";
 
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
@@ -13,12 +22,11 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-// const firebaseApp =
-initializeApp(firebaseConfig);
+const firebaseApp = initializeApp(firebaseConfig);
 
-const provider = new GoogleAuthProvider();
+const GoogleProvider = new GoogleAuthProvider();
 
-provider.setCustomParameters({
+GoogleProvider.setCustomParameters({
   prompt: "select_account",
 });
 
@@ -28,12 +36,23 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   console.log(userAuth);
 };
 
-export const auth = getAuth();
-export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+export const auth = getAuth(firebaseApp);
+
+export const signInWithGooglePopup = () => {
+  try {
+    return signInWithPopup(auth, GoogleProvider);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const db = getFirestore();
 
-export const createUserDocumetFromAuth = async (userAuth) => {
+export const createUserDocumetFromAuth = async (
+  userAuth,
+  additionalData = {}
+) => {
+  if (!userAuth) return;
   const userDocRef = doc(db, "users", userAuth.uid);
   const userSnap = await getDoc(userDocRef);
 
@@ -45,10 +64,21 @@ export const createUserDocumetFromAuth = async (userAuth) => {
         displayName,
         email,
         createdAt,
+        ...additionalData,
       });
     } catch (error) {
       console.log("Error creating user", error);
     }
     return userDocRef;
   }
+};
+
+export const createUser = async (email, password) => {
+  if (!email || !password) return;
+  return await createUserWithEmailAndPassword(auth, email, password);
+};
+
+export const signInAuth = async (email, password) => {
+  if (!email || !password) return;
+  return await signInWithEmailAndPassword(auth, email, password);
 };

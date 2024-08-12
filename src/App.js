@@ -5,6 +5,7 @@ import NavigationBar from "./routes/Navigation/NavigationBar";
 import SignIn from "./routes/SingIn/SignIn";
 import { ChakraProvider } from "@chakra-ui/react";
 import SignUp from "./routes/SignUp/SignUp";
+import ForgotPassword from "./routes/ForgotPassword/ForgotPassword";
 const Shop = () => {
   return (
     <div className="shop-page">
@@ -22,6 +23,7 @@ const App = () => {
           <Route path="shop" element={<Shop />} />
           <Route path="sign-in" element={<SignIn />} />
           <Route path="sign-up" element={<SignUp />} />
+          <Route path="sign-in/forgot-password" element={<ForgotPassword />} />
         </Route>
       </Routes>
     </ChakraProvider>
